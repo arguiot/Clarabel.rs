@@ -5,6 +5,9 @@ cfg_if::cfg_if! {
     if #[cfg(feature="wasm")] {
         use web_time::{Duration, Instant};
     }
+    else if #[cfg(feature = "zkEVM")] {
+        use crate::timers::timeless::zkevm::{Duration, Instant};
+    }
     else {
         use std::time::{Duration, Instant};
     }

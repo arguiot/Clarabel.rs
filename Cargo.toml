@@ -12,17 +12,17 @@ keywords = ["convex", "optimization", "conic", "solver", "linear-programming"]
 categories = ["mathematics"]
 
 #required for openssl to work on git actions
-resolver = "1"     
+resolver = "1"
 
 [dependencies]
-lazy_static    = "1.4"
-num-traits     = "0.2"
+lazy_static = "1.4"
+num-traits = "0.2"
 derive_builder = "0.11"
-enum_dispatch  = "0.3.8"
-amd            = "0.2.2"
-thiserror      = "1.0"
-cfg-if         = "1.0"
-itertools      = "0.11"
+enum_dispatch = "0.3.8"
+amd = "0.2.2"
+thiserror = "1.0"
+cfg-if = "1.0"
+itertools = "0.11"
 
 # -------------------------------
 # features
@@ -36,27 +36,34 @@ serde = ["dep:serde", "dep:serde_json"]
 
 # enables blas/lapack for SDP support, with blas/lapack src unspecified
 # also enable packages required for chordal decomposition 
-sdp = ["blas","lapack", "indexmap"]
+sdp = ["blas", "lapack", "indexmap"]
 
 # explicit configuration options for different blas flavours
 sdp-accelerate = ["sdp", "blas-src/accelerate", "lapack-src/accelerate"]
-sdp-netlib     = ["sdp", "blas-src/netlib", "lapack-src/netlib"]
-sdp-openblas   = ["sdp", "blas-src/openblas", "lapack-src/openblas"]
-sdp-mkl        = ["sdp", "blas-src/intel-mkl", "lapack-src/intel-mkl","intel-mkl-src"]
-sdp-r          = ["sdp", "blas-src/r", "lapack-src/r"]
+sdp-netlib = ["sdp", "blas-src/netlib", "lapack-src/netlib"]
+sdp-openblas = ["sdp", "blas-src/openblas", "lapack-src/openblas"]
+sdp-mkl = ["sdp", "blas-src/intel-mkl", "lapack-src/intel-mkl", "intel-mkl-src"]
+sdp-r = ["sdp", "blas-src/r", "lapack-src/r"]
 
 
 # build as the julia interface 
-julia = ["sdp", "dep:libc", "dep:num-derive",  "serde", "faer-sparse"] 
- 
+julia = ["sdp", "dep:libc", "dep:num-derive", "serde", "faer-sparse"]
+
 # build as the python interface via maturin.
 # NB: python builds use scipy shared libraries
 # for blas/lapack, and should *not* explicitly 
 # enable a blas/lapack source package 
-python = ["sdp", "dep:libc", "dep:pyo3", "dep:num-derive", "serde", "faer-sparse"]
+python = [
+    "sdp",
+    "dep:libc",
+    "dep:pyo3",
+    "dep:num-derive",
+    "serde",
+    "faer-sparse",
+]
 
 wasm = ["dep:web-time"]
-
+zkEVM = []
 #compile with faer supernodal solver option
 faer-sparse = ["dep:faer", "dep:faer-entity"]
 
@@ -74,11 +81,11 @@ optional = true
 
 [dependencies.blas-src]
 version = "0.10"
-optional = true 
+optional = true
 
 [dependencies.lapack-src]
 version = "0.10"
-optional = true 
+optional = true
 
 [dependencies.intel-mkl-src]
 version = "0.8.1"
@@ -91,11 +98,11 @@ optional = true
 
 [dependencies.faer]
 version = "0.19"
-optional = true 
+optional = true
 
 [dependencies.faer-entity]
 version = "0.19"
-optional = true 
+optional = true
 
 
 # -------------------------------
@@ -142,8 +149,6 @@ path = "examples/rust/example_json.rs"
 required-features = ["serde"]
 
 
-
-
 # -------------------------------
 # custom build profiles 
 # -------------------------------
@@ -157,20 +162,20 @@ debug = true
 # ------------------------------
 
 [dependencies.num-derive]
-optional = true 
+optional = true
 version = "0.2"
 
 [dependencies.serde]
-optional = true 
+optional = true
 version = "1"
 features = ["derive"]
 
 [dependencies.serde_json]
-optional = true 
+optional = true
 version = "1"
 
 [dependencies.libc]
-optional = true 
+optional = true
 version = "0.2"
 
 [dependencies.pyo3]
@@ -184,7 +189,7 @@ features = ["extension-module", "abi3-py37"]
 name = "clarabel"
 # "cdylib" is necessary to produce a shared libraries for Python/Julia
 # "lib" is necessary to allow the ./examples to build
-crate-type = ["lib","cdylib"] 
+crate-type = ["lib", "cdylib"]
 
 
 # ------------------------------
@@ -193,8 +198,8 @@ crate-type = ["lib","cdylib"]
 # ------------------------------
 
 [package.metadata.docs.rs]
-rustdoc-args = [ "--html-in-header", "./html/rustdocs-header.html" ]
-features = ["sdp","sdp-mkl"]
+rustdoc-args = ["--html-in-header", "./html/rustdocs-header.html"]
+features = ["sdp", "sdp-mkl"]
 
 # ------------------------------
 # wasm compatibility
@@ -209,4 +214,3 @@ version = "0.2.3"
 # ------------------------------
 [dev-dependencies]
 tempfile = "3"
-
